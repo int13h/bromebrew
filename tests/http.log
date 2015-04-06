@@ -1,0 +1,20 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	http
+#open	2015-04-06-19-01-32
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	trans_depth	method	host	uri	referrer	user_agent	request_body_len	response_body_len	status_code	status_msg	info_code	info_msg	filename	tags	username	password	proxied	orig_fuids	orig_mime_types	resp_fuids	resp_mime_types
+#types	time	string	addr	port	addr	port	count	string	string	string	string	string	count	count	count	string	count	string	string	set[enum]	string	string	set[string]	vector[string]	vector[string]	vector[string]	vector[string]
+1428346891.512910	CdiO8s4y1Cng5RGtl6	216.118.158.184	58523	184.84.243.223	80	1	GET	cfh.wapp.wii.com	/announce/018/1/2.bin	-	WiiConnect24/2.0.3.1	0	0	304	Not Modified	-	-	-	(empty)	-	-	-	-	-	-	-
+1428346903.009801	C6M9aG5X2d5o1gwh8	216.118.158.184	64333	23.223.126.80	80	1	GET	fus01.ps4.update.playstation.net	/update/ps4/list/us/ps4-updatelist.xml	-	SystemLogger/1.0 (PlayStation 4 2.508) libhttp/2.50 (PlayStation 4)	0	819	200	OK	-	-	-	(empty)	-	-	-	-	-	FcD8RhV9pmV5Iafnf	application/xml
+1428347205.426383	Ctjcsv3jhc5KBdLnxl	216.118.158.184	63786	23.223.126.80	80	1	GET	fus01.ps4.update.playstation.net	/update/ps4/list/us/ps4-updatelist.xml	-	SystemLogger/1.0 (PlayStation 4 2.508) libhttp/2.50 (PlayStation 4)	0	819	200	OK	-	-	-	(empty)	-	-	-	-	-	FEcKsr1KlsnhhhA5K	application/xml
+1428347251.139446	CYLZGr2PO1Kal9pMq5	216.118.158.184	58524	184.84.243.223	80	1	GET	cfh.wapp.wii.com	/announce/018/1/3.bin	-	WiiConnect24/2.0.3.1	0	0	304	Not Modified	-	-	-	(empty)	-	-	-	-	-	-	-
+1428347371.465957	CKOTpH1yVAd9HCnMb2	216.118.158.184	58525	184.84.243.223	80	1	GET	cfh.wapp.wii.com	/announce/018/1/4.bin	-	WiiConnect24/2.0.3.1	0	0	304	Not Modified	-	-	-	(empty)	-	-	-	-	-	-	-
+1428347507.905111	CBcV2K29NjuZg4UYr9	216.118.158.184	54342	23.223.126.80	80	1	GET	fus01.ps4.update.playstation.net	/update/ps4/list/us/ps4-updatelist.xml	-	SystemLogger/1.0 (PlayStation 4 2.508) libhttp/2.50 (PlayStation 4)	0	819	200	OK	-	-	-	(empty)	-	-	-	-	-	F2OmYI1V2gbeGSFDJe	application/xml
+1428347810.896387	CZbgJ7XDbxKOfp39g	216.118.158.184	59092	23.223.126.80	80	1	GET	fus01.ps4.update.playstation.net	/update/ps4/list/us/ps4-updatelist.xml	-	SystemLogger/1.0 (PlayStation 4 2.508) libhttp/2.50 (PlayStation 4)	0	819	200	OK	-	-	-	(empty)	-	-	-	-	-	FvrZ2r2fOFLXHIOHB8	application/xml
+1428348113.345241	CwhQU93IfXNWO4pJ4k	216.118.158.184	52134	23.223.126.80	80	1	GET	fus01.ps4.update.playstation.net	/update/ps4/list/us/ps4-updatelist.xml	-	SystemLogger/1.0 (PlayStation 4 2.508) libhttp/2.50 (PlayStation 4)	0	819	200	OK	-	-	-	(empty)	-	-	-	-	-	FdOxPJ1hcvRTFflRFf	application/xml
+1428348416.155798	CCe11o16evdb8WHf7f	216.118.158.184	63171	23.223.126.80	80	1	GET	fus01.ps4.update.playstation.net	/update/ps4/list/us/ps4-updatelist.xml	-	SystemLogger/1.0 (PlayStation 4 2.508) libhttp/2.50 (PlayStation 4)	0	819	200	OK	-	-	-	(empty)	-	-	-	-	-	FcTCws2cBVQ2ynXhh8	application/xml
+1428348718.111955	CDxXEL3AF3RygwRWIb	216.118.158.184	52163	23.223.126.80	80	1	GET	fus01.ps4.update.playstation.net	/update/ps4/list/us/ps4-updatelist.xml	-	SystemLogger/1.0 (PlayStation 4 2.508) libhttp/2.50 (PlayStation 4)	0	819	200	OK	-	-	-	(empty)	-	-	-	-	-	FjF9y04UsyhABXaiMg	application/xml
+1428349020.595734	CVyeFj3CU4czbhVRoa	216.118.158.184	53564	23.223.126.80	80	1	GET	fus01.ps4.update.playstation.net	/update/ps4/list/us/ps4-updatelist.xml	-	SystemLogger/1.0 (PlayStation 4 2.508) libhttp/2.50 (PlayStation 4)	0	819	200	OK	-	-	-	(empty)	-	-	-	-	-	FTAiTu3LEaZI5ZtQbi	application/xml
+1428349322.828610	CrrUdx1LRvF1R2fRV1	216.118.158.184	63227	23.223.126.80	80	1	GET	fus01.ps4.update.playstation.net	/update/ps4/list/us/ps4-updatelist.xml	-	SystemLogger/1.0 (PlayStation 4 2.508) libhttp/2.50 (PlayStation 4)	0	819	200	OK	-	-	-	(empty)	-	-	-	-	-	FtBtfD5hNvegWPnll	application/xml
