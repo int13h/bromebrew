@@ -1,5 +1,14 @@
 package main
 
+import (
+    "errors"
+    "bufio"
+    "strings"
+    "fmt"
+    "os"
+    "encoding/hex"
+)
+
 // #separator \x09                                                                 
 // #set_separator  ,     
 // #empty_field  (empty)                                                                                                                                                                                              
@@ -17,5 +26,80 @@ type BroHeader struct {
     UnsetField      string
     Timestamp       string
     Fields          []string
-    FieldMap        map[string]string
+    Types           []string
+}
+
+func BuildBroHeader(logPath string) (*BroHeader, error) {
+    header := &BroHeader{}
+    
+    // Check if file exists
+    if !IsExist(logPath) {
+        return header, errors.New("File not found")        
+    }
+    
+    data, err := os.Open(logPath) 
+    
+    defer data.Close()
+    
+    if err != nil {
+        return header, err   
+    }
+    
+    scanner := bufio.NewReader(data)
+    line, err := scanner.ReadString('\n')
+
+    // Check for field separator    
+    if strings.HasPrefix(line, "#separator") {
+        separator := strings.Trim(strings.Split(line, ` \x`)[1], "\n")
+        
+        if sep, err := hex.DecodeString(separator); err != nil {
+            return header, err    
+        } else {
+            header.Separator = string(sep)   
+        }
+        
+    } else {
+        return header, errors.New("File is corrupt or not a valid Bro log")   
+    }
+
+    // Build headers
+    for {
+        
+        line, err = scanner.ReadString('\n')
+
+        if err != nil {
+            fmt.Println(err)
+            break
+        }
+        
+        if !strings.HasPrefix(line, "#") {
+            break    
+        }
+        
+        row := strings.Split(strings.Trim(line, "\n"), header.Separator)
+        
+        field  := row[:1][0]
+        values := row[1:]
+        
+        switch field {
+        case "#empty_field": 
+            header.EmptyField = values[0]                                                                                                                                                                                              
+        case "#unset_field":
+            header.UnsetField = values[0]
+        case "#path":
+            header.Name = values[0]
+        case "#open":
+            header.Timestamp = values[0]
+        case "#fields":
+            header.Fields = values
+        case "#types":
+            header.Types = values
+        }
+    }
+
+    if len(header.Fields) != len(header.Types) {
+        return header, errors.New("ERROR: Field and Types length mismatch")   
+    }
+    
+    return header, nil    
 }

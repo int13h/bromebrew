@@ -19,6 +19,10 @@
 			"Rev": "068b72961a6bc5b4a82cf4fc14ccc724c0cfa73a"
 		},
 		{
+			"ImportPath": "github.com/davecgh/go-spew/spew",
+			"Rev": "fc32781af5e85e548d3f1abaf0fa3dbe8a72495c"
+		},
+		{
 			"ImportPath": "github.com/gorilla/websocket",
 			"Rev": "2dbddebb8266b93c5e6b119efb54e89043186f3f"
 		},

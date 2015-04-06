@@ -5,6 +5,8 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
+	"github.com/davecgh/go-spew/spew"
 )
 
 const (
@@ -26,6 +28,23 @@ func HomeHandler(c http.ResponseWriter, req *http.Request) {
 
 func main() {
 	flag.Parse()
+	
+	cl_path := "tests/conn.log"
+	
+	wrapper := &Wrapper{
+		Path: cl_path,
+	}
+	
+	if err := wrapper.Init(); err != nil {
+		log.Print(err)
+		os.Exit(-1)
+	}
+	
+	spew.Dump(wrapper.Header)
+	
+	wrapper.Watch()
+	
+	return;
 	
 	homeTempl = template.Must(template.ParseFiles("./web/index.html"))
 	h := NewHub()

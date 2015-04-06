@@ -22,7 +22,7 @@ else
 	ECHO=/bin/echo -e
 endif
 
-all: deps
+all:
 	@mkdir -p bin/
 	@$(ECHO) "$(OK_COLOR)==> Building $(NAME) $(VERSION) $(NO_COLOR)"
 	@godep go build -o bin/$(NAME)
