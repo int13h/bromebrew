@@ -6,6 +6,8 @@ import (
 
 	"github.com/Activestate/tail"
 	"github.com/gorilla/websocket"
+	"path/filepath"
+	"errors"
 )
 
 type connection struct {
@@ -16,18 +18,30 @@ type connection struct {
 	send chan []byte
 
 	// The hub.
-	h *hub
+	h *Hub
 }
 
-func (c *connection) reader() {
+func (self *connection) reader() {
+	
+	fmt.Println("BEFORE READ!")
+	
 	for {
-		_, message, err := c.ws.ReadMessage()
+		_, message, err := self.ws.ReadMessage()
 		if err != nil {
+			fmt.Println(err)
 			break
 		}
-		c.h.broadcast <- message
+		//c.h.broadcast <- message
+		
+		if wrapper, err := FindLogByName(string(message)); err == nil {
+			go wrapper.Watch()	
+		}
+		// self.ReadLog(string(message))
 	}
-	c.ws.Close()
+	
+	fmt.Println("AFTER READ");
+	
+	self.ws.Close()
 }
 
 func (c *connection) writer() {
@@ -37,7 +51,7 @@ func (c *connection) writer() {
 			break
 		}
 	}
-	c.ws.Close()
+	// c.ws.Close()
 }
 
 func (c *connection) brolog() {
@@ -61,7 +75,7 @@ func (c *connection) brolog() {
 var upgrader = &websocket.Upgrader{ReadBufferSize: 1024, WriteBufferSize: 1024}
 
 type WsHandler struct {
-	h *hub
+	h *Hub
 }
 
 func (wsh WsHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -72,7 +86,25 @@ func (wsh WsHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	c := &connection{send: make(chan []byte, 256), ws: ws, h: wsh.h}
 	c.h.register <- c
 	defer func() { c.h.unregister <- c }()
-	go c.brolog()
+	
+	for _, log := range Logs {
+		fmt.Println("Processing Log File: ", log.Path)
+		log.Socket = c
+	}
+	
 	go c.writer()
 	c.reader()
+}
+
+func FindLogByName(name string) (*Wrapper, error) {
+	
+	for _ , log := range Logs {
+		base := filepath.Base(log.Path)	
+		
+		if name == base {
+			return log, nil
+		}
+	}
+	
+	return nil, errors.New("Log Not Found.")
 }

@@ -1,9 +1,8 @@
 package main
 
 import (
-	"os"	
+	"os"
 )
-	
 
 func IsExist(path string) bool {
 	_, err := os.Stat(path)

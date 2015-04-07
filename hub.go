@@ -1,6 +1,8 @@
 package main
 
-type hub struct {
+// import "fmt"
+
+type Hub struct {
 	// Registered connections.
 	connections map[*connection]bool
 
@@ -14,8 +16,8 @@ type hub struct {
 	unregister chan *connection
 }
 
-func NewHub() *hub {
-	return &hub{
+func NewHub() *Hub {
+	return &Hub{
 		broadcast:   make(chan []byte),
 		register:    make(chan *connection),
 		unregister:  make(chan *connection),
@@ -23,7 +25,7 @@ func NewHub() *hub {
 	}
 }
 
-func (h *hub) run() {
+func (h *Hub) run() {
 	for {
 		select {
 		case c := <-h.register:
@@ -37,9 +39,11 @@ func (h *hub) run() {
 			for c := range h.connections {
 				select {
 				case c.send <- m:
-				default:
-					delete(h.connections, c)
-					close(c.send)
+				// default:
+				// 	fmt.Println("WTF???", m, c)
+				// 	fmt.Println(string(m))
+				// 	delete(h.connections, c)
+				// 	close(c.send)
 				}
 			}
 		}

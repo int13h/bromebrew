@@ -26,7 +26,7 @@ $(document).ready(function(){
   });
 
   if (window["WebSocket"]) {
-    conn = new WebSocket("wss://192.168.1.2:8080/ws");
+    conn = new WebSocket("wss://bromebrew-int13h.c9.io/ws");
     conn.onclose = function(evt) {
       appendLog($("<div><b>Connection closed.</b></div>"))
     }

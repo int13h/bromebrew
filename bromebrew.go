@@ -1,25 +1,27 @@
 package main
 
 import (
-	"flag"
 	"html/template"
 	"log"
 	"net/http"
+	"gopkg.in/alecthomas/kingpin.v1"
+	"fmt"
 	"os"
-	"github.com/davecgh/go-spew/spew"
 )
 
 const (
-	Name = "bromebrew"
+	Name    = "bromebrew"
 	Version = "0.1.0"
 )
 
 var (
-	addr      = flag.String("addr", ":8080", "http service address")
-	ssl_cert  = flag.String("ssl_cert", "/etc/ssl/local/cert.pem", "path to ssl cert")
-	ssl_key   = flag.String("ssl_key", "/etc/ssl/local/key.pem", "path to ssl key")
-	
+	addr     = kingpin.Flag("addr", "http service address").Default(":8080").String()
+	sslCert  = kingpin.Flag("sslCert", "path to ssl cert").Default("/etc/ssl/cert.pem").String()
+	sslKey   = kingpin.Flag("sslKey", "path to ssl key").Default("/etc/ssl/key.pem").String()
+	BaseDirs = kingpin.Flag("dir", "path to base directories (multiple --dir allowed)").Required().Strings()
 	homeTempl *template.Template
+	
+	Logs []*Wrapper
 )
 
 func HomeHandler(c http.ResponseWriter, req *http.Request) {
@@ -27,35 +29,35 @@ func HomeHandler(c http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	flag.Parse()
+	kingpin.Parse()
 	
-	cl_path := "tests/conn.log"
 	
-	wrapper := &Wrapper{
-		Path: cl_path,
-	}
+	fmt.Println(*BaseDirs)
+	logs, err := FindLogs(*BaseDirs)
 	
-	if err := wrapper.Init(); err != nil {
-		log.Print(err)
+	if err != nil {
+		fmt.Println(err)	
 		os.Exit(-1)
 	}
 	
-	spew.Dump(wrapper.Header)
+	Logs = logs
 	
-	wrapper.Watch()
-	
-	return;
-	
-	homeTempl = template.Must(template.ParseFiles("./web/index.html"))
 	h := NewHub()
 	go h.run()
-	
+
+	homeTempl = template.Must(template.ParseFiles("./web/index.html"))
+
 	http.Handle("/public/", http.FileServer(http.Dir("./web/")))
-	
+
 	http.HandleFunc("/", HomeHandler)
 	http.Handle("/ws", WsHandler{h: h})
-	
-	if err := http.ListenAndServeTLS(*addr, *ssl_cert, *ssl_key, nil); err != nil {
+
+	if err := http.ListenAndServe(*addr, nil); err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}
+	
+	//if err := http.ListenAndServeTLS(*addr, *sslCert, *sslKey, nil); err != nil {
+	//	log.Fatal("ListenAndServe:", err)
+	//}
+	
 }

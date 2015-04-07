@@ -1,35 +1,45 @@
 package main
 
 import (
-    "fmt"
-    "github.com/Activestate/tail"
-    "strings"
-    "encoding/json"
+	"encoding/json"
+	"fmt"
+	"github.com/Activestate/tail"
+	"strings"
 )
 
 type Wrapper struct {
-    Path string
-    Header *BroHeader
-    Tail bool
+	Path   string
+	Header *BroHeader
+	Tail   bool
+	Socket *connection
 }
 
 func (self *Wrapper) Init() error {
-    header, err := BuildBroHeader(self.Path)
-    
-    if err != nil {
-        return err    
-    }
-    
-    self.Header = header
-    
-    return nil
+	header, err := BuildBroHeader(self.Path)
+
+	if err != nil {
+		return err
+	}
+
+	self.Header = header
+
+	return nil
 }
 
 func (self *Wrapper) Watch() {
 
-    t, err := tail.TailFile(self.Path, tail.Config{
-		Follow: true,
-		ReOpen: true,
+    
+    headerJson := self.Header.Json()
+    
+    if self.Socket != nil {
+        self.Socket.send <- []byte(headerJson)
+    } else {
+        fmt.Printf("DEBUG HEADER: %s\n", headerJson)
+    }
+
+	t, err := tail.TailFile(self.Path, tail.Config{
+		Follow: false,
+		ReOpen: false,
 	})
 
 	if err != nil {
@@ -38,23 +48,35 @@ func (self *Wrapper) Watch() {
 
 	for line := range t.Lines {
 
-        
-	    if strings.HasPrefix(line.Text, "#") {
-	        continue    
-	    }
+		if strings.HasPrefix(line.Text, "#") {
+			continue
+		}
 
-        values := strings.Split(line.Text, self.Header.Separator)
-        data := map[string]interface{}{}
+		values := strings.Split(line.Text, self.Header.Separator)
+		
+		data := map[string]interface{}{}
+		event := map[string]interface{}{}
+		
+		data["type"] = "event"
+
+		for i, value := range values {
+			//fmt.Println(self.Header.Fields[i], value)
+			event[self.Header.Fields[i]] = value
+		}
+		
+		data["data"] = event
+
+		json, _ := json.Marshal(data)
+		//fmt.Println(string(json))
+
+        // send to requester
+        if self.Socket != nil {
+            self.Socket.send <- json
+        } else {
+            fmt.Printf("DEBUG: %s\n", json)    
+        }
         
-        
-	    for i, value := range values {
-	        //fmt.Println(self.Header.Fields[i], value)
-	        data[self.Header.Fields[i]] = value
-	    }
-	    
-        json, _ := json.Marshal(data)
-        fmt.Println(string(json))
-	    
-		//c.h.broadcast <- []byte(line.Text)
+        // send to everyone
+        //self.Socket.h.broadcast <- json
 	}
 }
