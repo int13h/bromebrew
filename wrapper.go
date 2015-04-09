@@ -67,14 +67,27 @@ func (self *Wrapper) Watch() {
 
 		json, _ := json.Marshal(data)
 
-		// send to requester
-		if self.Socket != nil {
-			self.Socket.send <- json
-		} else {
-			fmt.Printf("DEBUG: %s\n", json)
-		}
-
-		// send to everyone
-		//self.Socket.h.broadcast <- json
+		self.Send(json)
 	}
+
+	data := map[string]interface{}{
+		"type": "EOF",
+	}
+
+	json, _ := json.Marshal(data)
+
+	self.Send(json)
+
+}
+
+func (self *Wrapper) Send(json []byte) {
+	// send to requester
+	if self.Socket != nil {
+		self.Socket.send <- json
+	} else {
+		fmt.Printf("DEBUG: %s\n", json)
+	}
+
+	// send to everyone
+	//self.Socket.h.broadcast <- json
 }

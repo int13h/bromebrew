@@ -41,6 +41,6 @@ function h2s(hex) {
        } else if (/null/.test(match)) {
            cls = 'null';
        }
-       return '<span class=' + cls + '>' + match + '</span>';
+       return '<div class=' + cls + '>' + match + '</div>';
    });
 }

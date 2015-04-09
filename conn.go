@@ -1,11 +1,9 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strings"
 
 	"errors"
 	"path/filepath"
@@ -92,17 +90,17 @@ func (wsh WsHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	defer func() { c.h.unregister <- c }()
 
 	// available logs
-	var loglist bytes.Buffer
+	var loglist []string
 
 	for _, log := range Logs {
 		fmt.Println("Processing Log File: ", log.Path)
 		log.Socket = c
-		loglist.WriteString(filepath.Base(log.Path) + "||")
+		loglist = append(loglist, log.Header.Name)
 	}
 
 	json, _ := json.Marshal(map[string]interface{}{
 		"type": "loglist",
-		"data": strings.TrimSuffix(loglist.String(), "||"),
+		"data": loglist,
 	})
 
 	// send list to client
