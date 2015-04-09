@@ -1,11 +1,11 @@
 package main
 
 import (
+	"fmt"
+	"gopkg.in/alecthomas/kingpin.v1"
 	"html/template"
 	"log"
 	"net/http"
-	"gopkg.in/alecthomas/kingpin.v1"
-	"fmt"
 	"os"
 )
 
@@ -15,12 +15,12 @@ const (
 )
 
 var (
-	addr     = kingpin.Flag("addr", "http service address").Default(":8080").String()
-	sslCert  = kingpin.Flag("sslCert", "path to ssl cert").Default("/etc/ssl/cert.pem").String()
-	sslKey   = kingpin.Flag("sslKey", "path to ssl key").Default("/etc/ssl/key.pem").String()
-	BaseDirs = kingpin.Flag("dir", "path to base directories (multiple --dir allowed)").Required().Strings()
+	addr      = kingpin.Flag("addr", "http service address").Default(":8080").String()
+	sslCert   = kingpin.Flag("sslCert", "path to ssl cert").Default("/etc/ssl/cert.pem").String()
+	sslKey    = kingpin.Flag("sslKey", "path to ssl key").Default("/etc/ssl/key.pem").String()
+	BaseDirs  = kingpin.Flag("dir", "path to base directories (multiple --dir allowed)").Required().Strings()
 	homeTempl *template.Template
-	
+
 	Logs []*Wrapper
 )
 
@@ -30,18 +30,17 @@ func HomeHandler(c http.ResponseWriter, req *http.Request) {
 
 func main() {
 	kingpin.Parse()
-	
-	
+
 	fmt.Println(*BaseDirs)
 	logs, err := FindLogs(*BaseDirs)
-	
+
 	if err != nil {
-		fmt.Println(err)	
+		fmt.Println(err)
 		os.Exit(-1)
 	}
-	
+
 	Logs = logs
-	
+
 	h := NewHub()
 	go h.run()
 
@@ -55,9 +54,9 @@ func main() {
 	if err := http.ListenAndServe(*addr, nil); err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}
-	
+
 	//if err := http.ListenAndServeTLS(*addr, *sslCert, *sslKey, nil); err != nil {
 	//	log.Fatal("ListenAndServe:", err)
 	//}
-	
+
 }

@@ -3,14 +3,14 @@ package main
 import (
 	"bufio"
 	"encoding/hex"
+	"encoding/json"
 	"errors"
 	"fmt"
-	"os"
-	"strings"
-	"encoding/json"
 	"io/ioutil"
+	"os"
 	"path"
 	"path/filepath"
+	"strings"
 )
 
 // #separator \x09
@@ -35,14 +35,14 @@ type BroHeader struct {
 
 func (self *BroHeader) Json() string {
 
-    jsonHeader, _ := json.Marshal(map[string]interface{}{
-    	"type": "header",
-    	"data": map[string]interface{}{
-	        "fields": self.Fields,
-    	},
-    })
-    
-    return string(jsonHeader)
+	jsonHeader, _ := json.Marshal(map[string]interface{}{
+		"type": "header",
+		"data": map[string]interface{}{
+			"fields": self.Fields,
+		},
+	})
+
+	return string(jsonHeader)
 }
 
 func BuildBroHeader(logPath string) (*BroHeader, error) {
@@ -121,53 +121,41 @@ func BuildBroHeader(logPath string) (*BroHeader, error) {
 }
 
 func FindLogs(dirs []string) ([]*Wrapper, error) {
-	
-	// dir = [path/to/logs, logs/dir]
-	// --> *.log
-	
-	// found file: conn.log
-	// [].append("conn.log")
-	// [conn.log];
-
-	// ssl.log
-	// [conn.log].append("ssl.log")
-	// [conn.log, ssl.log]
 
 	var logs []*Wrapper
 
 	for _, dir := range dirs {
-		// Check if file exists
+
 		if !IsExist(dir) {
 			continue
-		}		
-		
+		}
+
 		p, _ := filepath.Abs(dir)
-		
+
 		files, _ := ioutil.ReadDir(p)
-		
-    	for _, f := range files {
-    		name := f.Name()
-    		
-    		if !f.IsDir() && filepath.Ext(name) == ".log" {
-    			
-    			w := &Wrapper{
-    				Path: path.Join(p, name),
-    			}
-    			
-    			if err := w.Init(); err == nil {
-	            	logs = append(logs, w)
-    			}
-    			
-    		}
-    	}
-    	
-    	
+
+		for _, f := range files {
+			name := f.Name()
+
+			if !f.IsDir() && filepath.Ext(name) == ".log" {
+
+				w := &Wrapper{
+					Path: path.Join(p, name),
+				}
+
+				if err := w.Init(); err == nil {
+					logs = append(logs, w)
+				}
+
+			}
+		}
+
 	}
-	
-	if len(logs) <= 1  {
-		return logs, errors.New("No files found!")	
+
+	if len(logs) <= 1 {
+		return logs, errors.New("No files found!")
 	}
 
 	return logs, nil
-	
+
 }

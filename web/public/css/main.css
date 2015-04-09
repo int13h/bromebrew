@@ -1,36 +1,25 @@
 body {
 padding: 0;
 margin: 0;
-width: 100%;
-height: 100%;
 font-family:tahoma, calibri, sans;
 font-size:12px;
+-moz-user-select:none;
+-webkit-user-select:none;
+-ms-user-select:none;
+}
+.select {
+-moz-user-select:text;
+-webkit-user-select:text;
+-ms-user-select:text
 }
 div.controls {
 width:100%;
-height:35px;
-border-bottom:1pt dotted #666;
-background-color:#fafafa;
-border-left:4pt solid lime;
+height:40px;
+background-color:#0B266C;
 padding-top:15px;
 }
 div.charts {
 width:100%;
-}
-div.log {
-width:100%;
-}
-div.log_detail {
-background-color:#fafafa;
-border-top:1pt dotted #666;
-border-left:4pt solid #3897F4;
-width:100%;
-height:50%;
-overflow:scroll;
-position:fixed;
-bottom:0;
-padding:10px;
-margin-top:10px;
 }
 #form {
 padding: 0 0.5em 0 0.5em;
@@ -39,7 +28,103 @@ bottom: 1em;
 left: 0px;
 width: 100%;
 }
-.log_empty {
+/* log area */
+.log_headers{
+}
+.log_detail{
+
+}
+.hdr {
+float:left;
+background-color:#163DD7;
+color:#fff;
+overflow:hidden;
+padding:10px 0 10px 0;
+font-size:10px;
+}
+.row {
+width:100%;
+float:left;
+clear:right;
+background-color:#fafafa;
+}
+.row:hover {
+background-color:#e9e9e9;
+cursor:pointer;
+}
+.rowactive {
+background-color:#eef497;
+}
+.rowactive:hover{
+background-color:#eef497;
+}
+.rowobj {
+float:left;
+background-color:transparent;
+border-bottom:1pt dotted #e9e9e9;
+color:#545454;
+padding:10px 0 10px 0;
+height:15px;
+font-size:10px;
+text-align:left;
+}
+.rowext {
+background-color:#FEFFD5;
+color:#666;
+width:100%;
+float:left;
+clear:left;
+padding: 10px 0px;
+font-family:"Courier New", monospace;
+white-space:pre;
+border-bottom:2pt solid #cc0000;
+}
+span.key {
+padding-left:40px;
+}
+span.value {
+padding-left:20px;
 font-weight:bold;
-display:none;
+}
+.fminput {
+float:left;
+width:300px;
+}
+.rcnt, .wcnt {
+float:left;
+width:40px;
+color:#f4f4f4;
+margin-left:10px;
+margin-top:5px;
+}
+.cnt {
+float:left;
+text-align:right;
+width:60px;
+color:#c9c9c9;
+margin-top:5px;
+}
+/* inputs and controls */
+.input {
+border:none;
+border:1pt solid #545454;
+border-radius:3px;
+padding:4px;
+background-color:#e7e7e7;
+margin-left:15px;
+font-size:13px;
+user-select:text;
+}
+.gobtn {
+background-color:transparent;
+border:none;
+font-weight:bold;
+color:#fff;
+font-size:15px;
+cursor:pointer;
+margin-left:10px;
+opacity:0.8;
+}
+.gobtn:hover {
+opacity:1;
 }

@@ -39,11 +39,11 @@ func (h *Hub) run() {
 			for c := range h.connections {
 				select {
 				case c.send <- m:
-				// default:
-				// 	fmt.Println("WTF???", m, c)
-				// 	fmt.Println(string(m))
-				// 	delete(h.connections, c)
-				// 	close(c.send)
+					// default:
+					// 	fmt.Println("WTF???", m, c)
+					// 	fmt.Println(string(m))
+					// 	delete(h.connections, c)
+					// 	close(c.send)
 				}
 			}
 		}

@@ -3,8 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Activestate/tail"
 	"strings"
+
+	"github.com/Activestate/tail"
 )
 
 type Wrapper struct {
@@ -28,14 +29,13 @@ func (self *Wrapper) Init() error {
 
 func (self *Wrapper) Watch() {
 
-    
-    headerJson := self.Header.Json()
-    
-    if self.Socket != nil {
-        self.Socket.send <- []byte(headerJson)
-    } else {
-        fmt.Printf("DEBUG HEADER: %s\n", headerJson)
-    }
+	headerJson := self.Header.Json()
+
+	if self.Socket != nil {
+		self.Socket.send <- []byte(headerJson)
+	} else {
+		fmt.Printf("DEBUG HEADER: %s\n", headerJson)
+	}
 
 	t, err := tail.TailFile(self.Path, tail.Config{
 		Follow: false,
@@ -53,30 +53,28 @@ func (self *Wrapper) Watch() {
 		}
 
 		values := strings.Split(line.Text, self.Header.Separator)
-		
+
 		data := map[string]interface{}{}
 		event := map[string]interface{}{}
-		
+
 		data["type"] = "event"
 
 		for i, value := range values {
-			//fmt.Println(self.Header.Fields[i], value)
 			event[self.Header.Fields[i]] = value
 		}
-		
+
 		data["data"] = event
 
 		json, _ := json.Marshal(data)
-		//fmt.Println(string(json))
 
-        // send to requester
-        if self.Socket != nil {
-            self.Socket.send <- json
-        } else {
-            fmt.Printf("DEBUG: %s\n", json)    
-        }
-        
-        // send to everyone
-        //self.Socket.h.broadcast <- json
+		// send to requester
+		if self.Socket != nil {
+			self.Socket.send <- json
+		} else {
+			fmt.Printf("DEBUG: %s\n", json)
+		}
+
+		// send to everyone
+		//self.Socket.h.broadcast <- json
 	}
 }
