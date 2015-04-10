@@ -12,6 +12,12 @@ body {
   -webkit-user-select:text;
   -ms-user-select:text
 }
+.loader {
+  width:100%;
+  text-align:center;
+  margin-top:50px;
+  display:none;
+}
 div.controls {
   width:100%;
   height:40px;
@@ -22,8 +28,8 @@ div.controls {
 }
 label {
   margin:20px;
+  color:#55454;
 }
-/* file area */
 .filearea {
   width:100%;
   background-color:#0b266c;
@@ -36,6 +42,7 @@ label {
   font-weight: bold;
   margin-top: 2px;
   margin-left: 20px;
+  margin-right:6px;
 }
 .fa-logs{
   float:left;
@@ -52,11 +59,17 @@ label {
   margin-right:5px;
   border: 1pt solid #c9c9c9;
 }
+.fa-log:hover {
+  background-color:#fff;
+}
 .fa-log-active {
   background-color:#ffa;
 }
-.fa-log:hover {
-  background-color:#fff;
+.fa-log-active:hover{
+  background-color:#ffa;
+}
+#tbl-detail {
+  display:none;
 }
 .rowext {
   background-color:#FEFFD5;
@@ -68,9 +81,6 @@ label {
   font-family:"Courier New", monospace;
   white-space:pre;
   border-bottom:2pt solid #cc0000;
-}
-div.key {
-  float:left;
 }
 div.key {
   float:left;
