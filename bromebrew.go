@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"gopkg.in/alecthomas/kingpin.v1"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
+
+	"gopkg.in/alecthomas/kingpin.v1"
 )
 
 const (
@@ -16,8 +17,8 @@ const (
 
 var (
 	addr      = kingpin.Flag("addr", "http service address").Default(":8080").String()
-	sslCert   = kingpin.Flag("sslCert", "path to ssl cert").Default("/etc/ssl/cert.pem").String()
-	sslKey    = kingpin.Flag("sslKey", "path to ssl key").Default("/etc/ssl/key.pem").String()
+	sslCert   = kingpin.Flag("sslCert", "path to ssl cert").Default("/etc/ssl/local/cert.pem").String()
+	sslKey    = kingpin.Flag("sslKey", "path to ssl key").Default("/etc/ssl/local/key.pem").String()
 	BaseDirs  = kingpin.Flag("dir", "path to base directories (multiple --dir allowed)").Required().Strings()
 	homeTempl *template.Template
 
@@ -51,12 +52,12 @@ func main() {
 	http.HandleFunc("/", HomeHandler)
 	http.Handle("/ws", WsHandler{h: h})
 
-	if err := http.ListenAndServe(*addr, nil); err != nil {
+	// if err := http.ListenAndServe(*addr, nil); err != nil {
+	// log.Fatal("ListenAndServe:", err)
+	// }
+
+	if err := http.ListenAndServeTLS(*addr, *sslCert, *sslKey, nil); err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}
-
-	//if err := http.ListenAndServeTLS(*addr, *sslCert, *sslKey, nil); err != nil {
-	//	log.Fatal("ListenAndServe:", err)
-	//}
 
 }

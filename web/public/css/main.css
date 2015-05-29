@@ -15,16 +15,48 @@ body {
 .loader {
   width:100%;
   text-align:center;
-  margin-top:50px;
+  margin-top:25px;
   display:none;
+  color:#666;
+}
+/* Left */
+div.left {
+  width: 15%;
+  border-right: 1pt solid #c9c9c9;
+  float: left;
+  margin-left: -1pt;
+  padding-top:10px;
+  height:100vh;
+}
+div.left-heading {
+  font-size:12px;
+  text-decoration:underline;
+  color:#545454;
+  margin-left:10px;
+  margin-bottom:10px;
+}
+div.toggles {
+  margin-left:10px;
+}
+/* Right */
+div.right {
+  width:85%;
+  float:left;
+  padding-top:10px;
 }
 div.controls {
-  width:100%;
+  overflow:hidden;
+  min-width:100%;
   height:40px;
   background-color:#fafafa;
   padding-top:15px;
   border-bottom:1pt solid #c9c9c9;
-  margin-bottom:10px;
+}
+div.more {
+  position:absolute;
+  top:19px;
+  right:10px;
+  display:none;
 }
 label {
   margin:20px;
@@ -35,38 +67,43 @@ label {
   background-color:#0b266c;
   height:30px;
 }
-.fa-msg {
-  color: #7C7C7C;
-  float: left;
-  font-size: 15px;
-  font-weight: bold;
-  margin-top: 2px;
-  margin-left: 20px;
+.fl-msg {
+  color:#7C7C7C;
+  float:left;
+  font-size:15px;
+  font-weight:bold;
+  margin-top:2px;
+  margin-left:20px;
   margin-right:6px;
 }
-.fa-logs{
+.fl-logs{
   float:left;
-  color:#ffa;
 }
-.fa-log {
-  border-radius: 3px;
-  padding: 4px;
-  float: left;
-  background-color: #f4f4f4;
-  color: #666;
-  cursor: pointer;
-  margin-left: 6px;
+.fl-log {
+  border-radius:3px;
+  padding:4px;
+  float:left;
+  background-color:#f4f4f4;
+  color:#666;
+  cursor:pointer;
+  margin-left:6px;
   margin-right:5px;
-  border: 1pt solid #c9c9c9;
 }
-.fa-log:hover {
+.fl-log:hover {
   background-color:#fff;
 }
-.fa-log-active {
-  background-color:#ffa;
+.fl-log-active {
+  background-color:#db4d4d;
+  color:#fff;
 }
-.fa-log-active:hover{
-  background-color:#ffa;
+.fl-log-active:hover {
+  background-color:#db4d4d;
+}
+.search-main {
+  position:absolute;
+  font-size:14px;
+  margin-left:10px;
+  margin-top:5px;
 }
 #tbl-detail {
   display:none;
@@ -96,12 +133,14 @@ div.value {
 }
 .fminput {
   float:left;
+  margin-left:10px;
 }
-.input {
+input {
   border:none;
   border:1pt solid #545454;
   border-radius:3px;
   padding:4px;
+  padding-left:20px;
   background-color:#e7e7e7;
   font-size:13px;
   margin-left:5px;

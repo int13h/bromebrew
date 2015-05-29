@@ -4,7 +4,7 @@ VERSION=$(shell cat $(NAME).go | grep -oP "Version\s+?\=\s?\"\K.*?(?=\"$|$\)")
 CWD=$(shell pwd)
 
 GITHUB_USER=int13h
-CCOS=linux
+CCOS=freebsd
 CCARCH=386 amd64
 CCOUTPUT="pkg/{{.OS}}-{{.Arch}}/$(NAME)"
 
@@ -16,35 +16,29 @@ WARN_COLOR=\033[33;01m
 DEPS = $(go list -f '{{range .TestImports}}{{.}} {{end}}' ./...)
 UNAME := $(shell uname -s)
 
-ifeq ($(UNAME),Darwin)
-	ECHO=echo
-else
-	ECHO=/bin/echo -e
-endif
-
 all:
 	@mkdir -p bin/
-	@$(ECHO) "$(OK_COLOR)==> Building $(NAME) $(VERSION) $(NO_COLOR)"
+	@echo "$(OK_COLOR)==> Building $(NAME) $(VERSION) $(NO_COLOR)"
 	@godep go build -o bin/$(NAME)
 	@chmod +x bin/$(NAME)
-	@$(ECHO) "$(OK_COLOR)==> Done$(NO_COLOR)"
+	@echo "$(OK_COLOR)==> Done$(NO_COLOR)"
 
 deps:
-	@$(ECHO) "$(OK_COLOR)==> Installing dependencies$(NO_COLOR)"
+	@echo "$(OK_COLOR)==> Installing dependencies$(NO_COLOR)"
 	@godep get
 
 updatedeps:
-	@$(ECHO) "$(OK_COLOR)==> Updating all dependencies$(NO_COLOR)"
+	@echo "$(OK_COLOR)==> Updating all dependencies$(NO_COLOR)"
 	@go get -d -v -u ./...
 	@echo $(DEPS) | xargs -n1 go get -d -u
 	@godep update ...
 
 test: deps
-	@$(ECHO) "$(OK_COLOR)==> Testing $(NAME)...$(NO_COLOR)"
+	@echo "$(OK_COLOR)==> Testing $(NAME)...$(NO_COLOR)"
 	go test ./...
 
 clean:
-	@$(ECHO) "$(OK_COLOR)==> Cleaning$(NO_COLOR)"
+	@echo "$(OK_COLOR)==> Cleaning$(NO_COLOR)"
 	@rm -rf bin/
 	@rm -rf pkg/
 

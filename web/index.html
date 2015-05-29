@@ -6,10 +6,8 @@
 <meta content="utf-8" http-equiv="encoding">
 <!-- DataTables CSS -->
 <link rel="stylesheet" type="text/css" href="/public/js/DataTables-1.10.6/media/css/jquery.dataTables.css">
-  
-<!-- jQuery -->
-<!--script type="text/javascript" charset="utf8" src="/public/js/DataTables-1.10.6/media/js/jquery.js"></script-->
-  
+<!-- <link rel="stylesheet" type="text/css" href="/public/css/animate.css" /> -->
+<link rel="stylesheet" type="text/css" href="/public/css/font-awesome-4.3.0/css/font-awesome.min.css" />
 <link rel="stylesheet" type="text/css" href="/public/css/main.css" />
 <script type="text/javascript" src="/public/js/jquery-2.1.3.min.js"></script>
 <script type="text/javascript" src="/public/js/helpers.js"></script>
@@ -21,21 +19,29 @@
 
   <div class=controls>
     <div class=fminput>
-      <div class=fa-msg>search</div>
-      <input class=input type="text" id="msg" size="20" maxlength="50" />
+      <i class="fa fa-search search-main"></i>
+      <input class=input type="text" id="msg" size="20" maxlength="50" placeholder="Search" />
     </div>
-    <div class=fa-msg>logs</div>
-    <div class=fa-logs></div>
+    <div class=fl-msg>logs</div>
+    <div class=fl-logs></div>
   </div>
 
-  <div class=log-detail>
-    <div class=loader><img src=/public/css/load.gif></div>
-    <table id="tbl-detail" class=display>
-      <thead id="tbl-detail-hdr">
-      </thead>
-      <tbody id="tbl-detail-row">
-      </tbody>
-    </table>
+  <div class=left>
+      <div class=left-heading></div>
+      <div class=left-heading>Columns</div>
+      <div class=toggle-column></div>
+  </div>
+
+  <div class=right>
+    <div class=log-detail>
+      <div class=loader><i class="fa fa-refresh fa-spin fa-lg"></i></div>
+      <table id="tbl-detail" class=display>
+        <thead id="tbl-detail-hdr">
+        </thead>
+        <tbody id="tbl-detail-row">
+        </tbody>
+      </table>
+    </div>
   </div>
 
 </body>

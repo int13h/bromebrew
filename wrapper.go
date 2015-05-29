@@ -64,6 +64,7 @@ func (self *Wrapper) Watch() {
 		}
 
 		data["data"] = event
+		fmt.Println(event)
 
 		json, _ := json.Marshal(data)
 
